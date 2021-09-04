@@ -1,4 +1,4 @@
-package com.ceiba.biblioteca;
+package com.ceiba.biblioteca.controladores;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
