@@ -5,6 +5,7 @@ import com.ceiba.biblioteca.repositorios.IPrestamoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -48,8 +49,13 @@ public class PrestamoServicio implements  IPrestamoServicio {
     }
 
     @Override
-    public PrestamoModelo consultarPrestamoPorId(PrestamoModelo prestamo) {
-        return null;
+    public PrestamoModelo consultarPrestamoPorId(@NotNull PrestamoModelo prestamo) {
+        Optional<PrestamoModelo> consulta = prestamoRepositorio.findById(prestamo.getId());
+        PrestamoModelo prestamoEncontrado = consulta.get();
+        LocalDate fechaGuardada = prestamoEncontrado.getFechaDevolucion();
+        prestamoEncontrado.setFechaDevolucion(LocalDate.parse(formatearFecha(fechaGuardada), DateTimeFormatter.ofPattern("dd/LL/yyyy")));
+
+        return prestamoEncontrado;
     }
 
     private List<PrestamoModelo> consultarPrestamoPorUsuario(String idUsuario) {

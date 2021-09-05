@@ -33,7 +33,16 @@ public class PrestamoControlador {
         respuestaPrestamo.put("fechaMaximaDevolucion", fechaDevolucion);
         respuestaPrestamo.remove(id);
 
+        response.setStatus(HttpServletResponse.SC_OK);
         return respuestaPrestamo;
+    }
+
+    @GetMapping(path = "/{id-prestamo}")
+    public PrestamoModelo getUserById(@PathVariable("id-prestamo") long id) {
+        PrestamoModelo prestamo = new PrestamoModelo();
+        prestamo.setId(id);
+
+        return prestamoServicio.consultarPrestamoPorId(prestamo);
     }
 
 }
