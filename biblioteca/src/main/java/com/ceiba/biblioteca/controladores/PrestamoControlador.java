@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/prestamo")
@@ -38,12 +40,10 @@ public class PrestamoControlador {
     }
 
     @GetMapping(path = "/{id-prestamo}")
-    public PrestamoModelo getUserById(@PathVariable("id-prestamo") long id) {
+    public Optional<PrestamoModelo> getUserById(@PathVariable("id-prestamo") long id) {
         PrestamoModelo prestamo = new PrestamoModelo();
         prestamo.setId(id);
 
         return prestamoServicio.consultarPrestamoPorId(prestamo);
     }
-
 }
-

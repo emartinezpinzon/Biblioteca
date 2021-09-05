@@ -19,9 +19,9 @@ public class PrestamoModelo {
     private String isbn;
 
     @Size(max = 10)
-    private String identificaciónUsuario;
+    private String identificacionUsuario;
 
     private byte tipoUsuario;
 
-    private LocalDate fechaDevolucion;
+    private LocalDate fechaMaximaDevolucion;
 }

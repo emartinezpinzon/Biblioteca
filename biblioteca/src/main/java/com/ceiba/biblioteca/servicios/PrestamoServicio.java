@@ -19,7 +19,7 @@ public class PrestamoServicio implements  IPrestamoServicio {
 
     @Override
     public Map<String, Object> crearPrestamo(PrestamoModelo prestamo) {
-        String idUsuario = prestamo.getIdentificaciónUsuario();
+        String idUsuario = prestamo.getIdentificacionUsuario();
         byte tipoUsuario = prestamo.getTipoUsuario();
         LocalDate fechaDevolucion = this.calcularFechaDevolucion(tipoUsuario);
         Map<String, Object> respuesta = new LinkedHashMap<>();
@@ -41,7 +41,7 @@ public class PrestamoServicio implements  IPrestamoServicio {
             return respuesta;
         }
 
-        prestamo.setFechaDevolucion(fechaDevolucion);
+        prestamo.setFechaMaximaDevolucion(fechaDevolucion);
         PrestamoModelo prestamoModelo = prestamoRepositorio.save(prestamo);
         respuesta.put(String.valueOf(prestamoModelo.getId()), formatearFecha(fechaDevolucion));
 
@@ -49,17 +49,12 @@ public class PrestamoServicio implements  IPrestamoServicio {
     }
 
     @Override
-    public PrestamoModelo consultarPrestamoPorId(@NotNull PrestamoModelo prestamo) {
-        Optional<PrestamoModelo> consulta = prestamoRepositorio.findById(prestamo.getId());
-        PrestamoModelo prestamoEncontrado = consulta.get();
-        LocalDate fechaGuardada = prestamoEncontrado.getFechaDevolucion();
-        prestamoEncontrado.setFechaDevolucion(LocalDate.parse(formatearFecha(fechaGuardada), DateTimeFormatter.ofPattern("dd/LL/yyyy")));
-
-        return prestamoEncontrado;
+    public Optional<PrestamoModelo> consultarPrestamoPorId(@NotNull PrestamoModelo prestamo) {
+        return prestamoRepositorio.findById(prestamo.getId());
     }
 
     private List<PrestamoModelo> consultarPrestamoPorUsuario(String idUsuario) {
-        return prestamoRepositorio.findByidentificaciónUsuario(idUsuario);
+        return prestamoRepositorio.findByidentificacionUsuario(idUsuario);
     }
 
     private LocalDate calcularFechaDevolucion(byte tipoUsuario) {
