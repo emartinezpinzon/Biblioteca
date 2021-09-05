@@ -21,7 +21,7 @@ public class PrestamoServicio implements  IPrestamoServicio {
     public Map<String, Object> crearPrestamo(PrestamoModelo prestamo) {
         String idUsuario = prestamo.getIdentificacionUsuario();
         byte tipoUsuario = prestamo.getTipoUsuario();
-        LocalDate fechaDevolucion = this.calcularFechaDevolucion(tipoUsuario);
+        String fechaDevolucion = this.calcularFechaDevolucion(tipoUsuario);
         Map<String, Object> respuesta = new LinkedHashMap<>();
 
         if (tipoUsuario > 3){
@@ -43,7 +43,7 @@ public class PrestamoServicio implements  IPrestamoServicio {
 
         prestamo.setFechaMaximaDevolucion(fechaDevolucion);
         PrestamoModelo prestamoModelo = prestamoRepositorio.save(prestamo);
-        respuesta.put(String.valueOf(prestamoModelo.getId()), formatearFecha(fechaDevolucion));
+        respuesta.put(String.valueOf(prestamoModelo.getId()), fechaDevolucion);
 
         return respuesta;
     }
@@ -57,7 +57,7 @@ public class PrestamoServicio implements  IPrestamoServicio {
         return prestamoRepositorio.findByidentificacionUsuario(idUsuario);
     }
 
-    private LocalDate calcularFechaDevolucion(byte tipoUsuario) {
+    private String calcularFechaDevolucion(byte tipoUsuario) {
         LocalDate dateNow = LocalDate.now();
         int diasReglamentarios = 0;
         int diasSumar = 0;
@@ -72,12 +72,11 @@ public class PrestamoServicio implements  IPrestamoServicio {
         while (diasSumar < diasReglamentarios) {
             dateNow = dateNow.plusDays(1);
 
-            if (dateNow.getDayOfWeek() != DayOfWeek.SATURDAY ||
-                    dateNow.getDayOfWeek() != DayOfWeek.SUNDAY)
-                diasSumar++;
+            if (!(dateNow.getDayOfWeek() == DayOfWeek.SATURDAY || dateNow.getDayOfWeek() == DayOfWeek.SUNDAY))
+                ++diasSumar;
         }
 
-        return dateNow;
+        return formatearFecha(dateNow);
     }
 
     private String formatearFecha(LocalDate date) {
