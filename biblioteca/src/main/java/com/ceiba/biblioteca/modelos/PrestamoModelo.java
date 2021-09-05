@@ -19,10 +19,10 @@ public class PrestamoModelo {
     private String isbn;
 
     @Size(max = 10)
-    private String idUser;
+    private String identificaciónUsuario;
 
     @Size(max = 1)
-    private char tipoUsuario;
+    private String tipoUsuario;
 
     private Date fechaDevolucion;
 }
