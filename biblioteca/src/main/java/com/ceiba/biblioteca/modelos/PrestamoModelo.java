@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 
 @Data
 @Entity
@@ -23,5 +22,5 @@ public class PrestamoModelo {
 
     private byte tipoUsuario;
 
-    private LocalDate fechaMaximaDevolucion;
+    private String fechaMaximaDevolucion;
 }
