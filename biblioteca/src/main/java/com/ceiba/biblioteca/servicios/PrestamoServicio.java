@@ -17,11 +17,11 @@ public class PrestamoServicio implements  IPrestamoServicio {
     private IPrestamoRepositorio prestamoRepositorio;
 
     @Override
-    public Map<String, String> crearPrestamo(PrestamoModelo prestamo) {
+    public Map<String, Object> crearPrestamo(PrestamoModelo prestamo) {
         String idUsuario = prestamo.getIdentificaciónUsuario();
         byte tipoUsuario = prestamo.getTipoUsuario();
         LocalDate fechaDevolucion = this.calcularFechaDevolucion(tipoUsuario);
-        Map<String, String> respuesta = new HashMap<>();
+        Map<String, Object> respuesta = new LinkedHashMap<>();
 
         if (tipoUsuario > 3){
             respuesta.put("mensaje",

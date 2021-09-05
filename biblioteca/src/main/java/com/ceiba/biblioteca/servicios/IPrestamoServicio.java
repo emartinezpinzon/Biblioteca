@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface IPrestamoServicio {
 
-    Map<String, String> crearPrestamo(PrestamoModelo prestamo);
+    Map<String, Object> crearPrestamo(PrestamoModelo prestamo);
 
     PrestamoModelo consultarPrestamoPorId(PrestamoModelo prestamo);
 
